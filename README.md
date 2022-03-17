@@ -22,4 +22,17 @@ Enter Geopandas.
 
 Geopandas offers a neat geospatial index using R-Trees which shorten the time spent on PIP queries signficantly. It offers data storage, the same pandas API for joins (similar to PostGIS). Too good to be true. I went for it, paralellized the whole operation with multiprocessing. The whole 1GB with 57 data chunks took around 4000s to run all the spatial joins, stack the results from each chunk on top of each other and writing all of it back to disk on my 2,6GHz 6-corei7 MacBook Pro with 8 processes. It could have been faster, but it's definitely manageable. 
 
-## Part 2: Analytics
+## Part 2: Project Structure
+The code comes with three modules: one "load_data.py" for... well, obviously loading the data, then "combine_data.py" for bringing different data sources together via geo-spatial joins and finally "visualization.py" for visualizing. It is assumed that the folder "train_data" is located in the root of the project. It goes without saying that I couldn't have uploaded the whole data here, but for the code to work, that data must be there. Necessary libraries are listed in "requirements.txt"; plots and visualizations are located in the "plots" folder. The results of unifying the data are located in the "derived_data" directory.
+
+## Part 3: Analytics & Visualizations
+In "combine_data.py" the analytics metrics have been computed. I didn't get to finish the whole thing, because it was simply a lot to do. However, I did visualize what I had to and I can elaborate verbally on the sort of predictive models which might make sense. 
+
+For one thing, it was impossible to get to the data scientists' section without completing the initial section. We are in the end interested in knowing if we can predict a user's shopping behavior given his affinities and past shopping behavior so as to send him/her the best subset of advertisements. In this light, following statistial questions are important:
+
+1) The covariance between population groups and shopping at a certain store.
+2) Consistency/covariance inside a group in shopping activity. How similar does a certain population group behave?
+3) Seasonality in each store: are there specific times a store is particularly popular among any group in the population?
+4) Given a certain advertising campaign at a point in time, does customer behavior change? (A/B testing)
+
+The problem of predicting whether or not a customer will go to a certain store can be mathematically modelled by formulating it as a matrix factorization. We are in fact interested in the latent features which form the customer behavior. Given every user and their affinity, also given every user and their past behavior, we are interested in the matrix which relates each store to an affinity. This is one way to formulate this problem; other formulations (e.g. a probabilistic formulations) are also possible and highly interesting. Possible sorts of factorizations to explore would be SVD, NMF and LDA.
