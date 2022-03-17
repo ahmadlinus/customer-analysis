@@ -47,8 +47,6 @@ def plot_store_polygons():
     _, ax = plt.subplots(figsize=(10, 10))
     area_map.to_crs(epsg=4326).plot(ax=ax, color="#FFFFE0")
     stores_gdf.plot(ax=ax, color="red", linewidth=5)
-    # ax.set_ylim(52.40, 52.60)    
-    # ax.set_xlim(13.15, 13.55)
     ax.set_title("Store Locations in Berlin")
     plt.show()
 
